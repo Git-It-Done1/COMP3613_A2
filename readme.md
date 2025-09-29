@@ -56,18 +56,22 @@ in configuration information via environment tab of your render project's dashbo
 # Flask Commands
 
 # Core functionality
+```python
 flask create-position     # Create internship position (Employer)
 flask shortlist-student   # Add student to shortlist (Staff) 
 flask review-student      # Accept/reject student (Employer)
 flask my-shortlists       # View shortlisted positions (Student)
+...
 
 # Other commands
+
+```python
 flask positions          # List all positions
 flask students           # List all students
 flask employers          # List all employers
 flask staff              # List all staff
 flask shortlists         # List all shortlists
-
+..
 user_cli = AppGroup('user', help='User object commands')
 
 @user_cli.cli.command("create-user")
