@@ -55,13 +55,13 @@ in configuration information via environment tab of your render project's dashbo
 
 # Flask Commands
 
-# Core functionality----------------------------------------------------------------------------------------------
+# Core functionality
 flask create-position     # Create internship position (Employer)
 flask shortlist-student   # Add student to shortlist (Staff) 
 flask review-student      # Accept/reject student (Employer)
 flask my-shortlists       # View shortlisted positions (Student)
 
-# Other commands---------------------------------------------------------------------------------------------------
+# Other commands
 flask positions          # List all positions
 flask students           # List all students
 flask employers          # List all employers
