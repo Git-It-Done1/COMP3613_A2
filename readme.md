@@ -1,8 +1,7 @@
-![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
+$ flask test user![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
 
-# Flask MVC Template
-A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/). [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
-
+# Internship Management System
+A Flask application for managing student internship placements using the Model View Controller pattern.
 
 # Dependencies
 * Python3/pip3
@@ -56,11 +55,18 @@ in configuration information via environment tab of your render project's dashbo
 
 # Flask Commands
 
-wsgi.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
-You just need create a manager command function, for example:
+# Core functionality----------------------------------------------------------------------------------------------
+flask create-position     # Create internship position (Employer)
+flask shortlist-student   # Add student to shortlist (Staff) 
+flask review-student      # Accept/reject student (Employer)
+flask my-shortlists       # View shortlisted positions (Student)
 
-```python
-# inside wsgi.py
+# Other commands---------------------------------------------------------------------------------------------------
+flask positions          # List all positions
+flask students           # List all students
+flask employers          # List all employers
+flask staff              # List all staff
+flask shortlists         # List all shortlists
 
 user_cli = AppGroup('user', help='User object commands')
 
