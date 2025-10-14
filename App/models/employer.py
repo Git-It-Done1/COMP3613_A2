@@ -14,19 +14,4 @@ class Employer(db.Model):
         self.email = email
         self.company = company
 
-    def create_position(self, title, description, requirements, department, location):
-        position = InternshipPosition(
-            title=title,
-            description=description,
-            requirements=requirements,
-            department=department,
-            location=location,
-            employer=self
-        )
-        db.session.add(position)
-        db.session.commit()
-        return position
-
-    def review_shortlist_entry(self, entry, decision):
-        entry.set_employer_decision(decision)
-        db.session.commit()
+   
