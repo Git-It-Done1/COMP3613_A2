@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
 from App.database import db, create_db
-from App.models import User
+from App.models import User, Student, Shortlist, Staff, Employer, InternshipPosition, shortList
 from App.controllers import (
     create_user,
     get_all_users_json,
@@ -19,28 +19,55 @@ LOGGER = logging.getLogger(__name__)
 '''
    Unit Tests
 '''
-class UserUnitTests(unittest.TestCase):
 
-    def test_new_user(self):
-        user = User("bob", "bobpass")
-        assert user.username == "bob"
+class StudentUnitTests(unittest.TestCase):
+    def test_new_student(self):
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        assert student.name == "John Doe"
+        assert student.gpa == 3.6
 
-    # pure function no side effects or integrations called
-    def test_get_json(self):
-        user = User("bob", "bobpass")
-        user_json = user.get_json()
-        self.assertDictEqual(user_json, {"id":None, "username":"bob"})
-    
-    def test_hashed_password(self):
-        password = "mypass"
-        hashed = generate_password_hash(password, method='sha256')
-        user = User("bob", password)
-        assert user.password != password
+    def test_student_shortlists(self):
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        shortLists = student.view_my_shortlists()
+        assert shortLists == []
 
-    def test_check_password(self):
-        password = "mypass"
-        user = User("bob", password)
-        assert user.check_password(password)
+class StaffUnitTests(unittest.TestCase):
+    def test_create_staff(self):
+        staff = Staff("Dr. Smith", "smith@uni.edu", "DCIT")
+        assert staff.name == "Dr. Smith"
+        assert staff.department == "DCIT"
+
+class EmployerUnitTests(unittest.TestCase):
+    def test_create_employer(self):
+        employer = Employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        assert employer.name == "Alice Johnson"
+        assert employer.company == "TechCorp"
+
+class InternshipPositionUnitTests(unittest.TestCase):
+    def test_create_position(self):
+        employer = Employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = InternshipPosition("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        assert position.title == "Frontend Dev"
+        assert position.is_active == True
+
+class ShortlistUnitTests(unittest.TestCase):
+    def test_create_shortlist_entry(self):
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        staff = Staff("Dr. Smith", "smith@uni.edu", "DCIT")
+        employer = Employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = InternshipPosition("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        shortlist = Shortlist(student, position, staff, "Pending", "Undecided")
+        assert shortlist.student == student
+        shortlist.status == "Pending"
+
+    def test_set_employer_decision(self):
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        staff = Staff("Dr. Smith", "smith@uni.edu", "DCIT")
+        employer = Employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = InternshipPosition("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        shortlist_entry = Shortlist(student, position, staff, "Pending", "Undecided")
+        shortlist_entry.set_employer_decision("Accepted")
+        assert shortlist_entry.employer_decision == "Accepted"
 
 '''
     Integration Tests
