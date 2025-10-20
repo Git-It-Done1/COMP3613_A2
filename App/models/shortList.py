@@ -23,4 +23,3 @@ class Shortlist(db.Model):
 
     def set_employer_decision(self, decision):
         self.employer_decision = decision
-        #db.session.commit()
