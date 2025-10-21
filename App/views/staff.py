@@ -28,3 +28,4 @@ def shortlist():
         return jsonify(shortlist_id=entry.shortlist_id), 201
     except ValueError as e:
         return jsonify(error=str(e)), 400
+

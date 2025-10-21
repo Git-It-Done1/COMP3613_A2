@@ -46,3 +46,4 @@ def get_shortlists(student_id):
         } for s in shortlists]), 200
     except ValueError as e:
         return jsonify(error=str(e)), 404
+

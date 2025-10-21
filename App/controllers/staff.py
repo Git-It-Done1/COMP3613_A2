@@ -28,3 +28,4 @@ def add_to_shortlist(staff_id, student_id, position_id):
     db.session.add(shortlist_entry)
     db.session.commit()
     return shortlist_entry
+    

@@ -10,3 +10,4 @@ from .admin import setup_admin
 
 views = [index_views, auth_views, user_views, student_bp, staff_bp, employer_bp, position_bp, shortlist_bp]
 
+

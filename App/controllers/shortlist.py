@@ -28,3 +28,4 @@ def get_shortlists_by_staff(staff_id):
 
 def get_shortlists_by_position(position_id):
     return Shortlist.query.filter_by(position_id=position_id).all()
+    

@@ -14,3 +14,4 @@ def create_user_endpoint():
     data = request.json
     user = create_user(data['username'], data['password'])
     return jsonify(id=user.id, username=user.username), 201
+

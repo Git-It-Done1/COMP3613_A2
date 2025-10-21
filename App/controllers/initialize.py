@@ -54,3 +54,4 @@ def init_db():
     db.session.commit()
 
     print("Database initialized successfully.")
+    

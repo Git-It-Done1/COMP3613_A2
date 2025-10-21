@@ -14,3 +14,4 @@ def get_all():
         "position": s.position.title,
         "decision": s.employer_decision
     } for s in entries]), 200
+    

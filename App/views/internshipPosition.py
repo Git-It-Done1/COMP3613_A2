@@ -33,3 +33,4 @@ def by_employer(employer_id):
     positions = get_positions_by_employer(employer_id)
     return jsonify([{"position_id": p.position_id, "title": p.title} for p in positions]), 200
 
+

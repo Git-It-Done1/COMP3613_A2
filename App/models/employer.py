@@ -24,3 +24,4 @@ class Employer(db.Model):
     
     def __repr__(self):
         return f'<Employer {self.employer_id}: {self.name} - {self.company}>'
+        

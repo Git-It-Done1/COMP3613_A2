@@ -28,3 +28,4 @@ def review():
         return jsonify(shortlist_id=entry.shortlist_id, decision=entry.employer_decision), 200
     except ValueError as e:
         return jsonify(error=str(e)), 400
+

@@ -28,4 +28,5 @@ def get_employer_by_id(employer_id):
     return db.session.get(Employer, employer_id)
 
 def get_employer_by_email(email):
-    return Employer.query.filter_by(email=email).first()
+    return Employer.query.filter_by(email=email).first() 
+    

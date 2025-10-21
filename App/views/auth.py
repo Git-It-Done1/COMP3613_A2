@@ -17,3 +17,4 @@ def login():
 @jwt_required()
 def identify():
     return jsonify(user_id=current_user.id, username=current_user.username), 200
+    

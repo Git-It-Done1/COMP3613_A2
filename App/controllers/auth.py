@@ -35,3 +35,4 @@ def add_auth_context(app):
             is_authenticated = False
             current_user = None
         return dict(is_authenticated=is_authenticated, current_user=current_user)
+

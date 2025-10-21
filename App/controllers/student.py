@@ -51,3 +51,4 @@ def review_student(employer_id, shortlist_id, decision):
     """Employer reviews a student from a shortlist"""
     from App.controllers.employer import review_shortlist_entry
     return review_shortlist_entry(employer_id, shortlist_id, decision)
+    
