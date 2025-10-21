@@ -1,5 +1,4 @@
 from App.database import db
-from App.models.internshipPosition import InternshipPosition
 
 class Employer(db.Model):
     __tablename__ = 'employers'
@@ -13,5 +12,16 @@ class Employer(db.Model):
         self.name = name
         self.email = email
         self.company = company
-
-   
+    
+    def to_dict(self):
+        """Convert employer to dictionary"""
+        return {
+            'employer_id': self.employer_id,
+            'name': self.name,
+            'email': self.email,
+            'company': self.company
+        }
+    
+    def __repr__(self):
+        return f'<Employer {self.employer_id}: {self.name} - {self.company}>'
+        

@@ -19,3 +19,4 @@ class Staff(db.Model):
         db.session.add(shortlist_entry)
         db.session.commit()
         return shortlist_entry
+        
