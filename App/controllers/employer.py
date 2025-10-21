@@ -19,9 +19,9 @@ def create_position(self, title, description, requirements, department, location
         employer=self
         )
 
-        db.session.add(position)
-        db.session.commit()
-        return position
+    db.session.add(position)
+    db.session.commit()
+    return position
 
 def review_shortlist_entry(self, entry, decision):
     entry.set_employer_decision(decision)

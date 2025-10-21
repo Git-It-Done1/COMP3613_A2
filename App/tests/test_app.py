@@ -10,7 +10,22 @@ from App.controllers import (
     login,
     get_user,
     get_user_by_username,
-    update_user
+    update_user,
+    create_staff,
+    create_employer,
+    create_position,
+    add_to_shortlist,
+    create_shortlist_entry,
+    get_shortlist_by_id,
+    review_shortlist_entry,
+    get_employer_by_id,
+    get_employer_by_email,
+    get_position_by_id,
+    deactivate_position,
+    get_positions_by_employer,
+    update_employer_decision,
+    get_shortlists_by_staff,
+    get_shortlists_by_position
 )
 
 
@@ -83,24 +98,82 @@ def empty_db():
     db.drop_all()
 
 
-def test_authenticate():
-    user = create_user("bob", "bobpass")
-    assert login("bob", "bobpass") != None
+class StaffIntegrationTests(unittest.TestCase):
+    def test_staff_add_to_shortlist(self):
+        staff = create_staff("Dr. Smith", "smith@uni.edu", "DCIT")
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        shortlist_entry = add_to_shortlist(staff, student, position)
+        assert shortlist_entry.student_id == student.student_id and shortlist_entry.status == "Pending"
 
-class UsersIntegrationTests(unittest.TestCase):
+class EmployerIntegrationTests(unittest.TestCase):
+    def test_employer_create_position(self):
+        employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        assert position != None and position.employer_id == employer.employer_id
 
-    def test_create_user(self):
-        user = create_user("rick", "bobpass")
-        assert user.username == "rick"
+    def test_employer_review_shortlist_entry(self):
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        staff = create_staff("Dr. Smith", "smith@uni.edu", "DCIT")
+        employer = get_employer_by_id(1)
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        entry = create_shortlist_entry(student, position, staff)
+        shortlist_entry = review_shortlist_entry(employer, get_shortlist_by_id(1), "Accepted")
+        assert shortlist_entry.employer_decision == "Accepted"
 
-    def test_get_all_users_json(self):
-        users_json = get_all_users_json()
-        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
+    def test_get_employer_by_id(self):
+        employer = get_employer_by_id(1)
+        assert employer.email == "alice@techcorp.com"
 
-    # Tests data changes in the database
-    def test_update_user(self):
-        update_user(1, "ronnie")
-        user = get_user(1)
-        assert user.username == "ronnie"
+    def test_get_employer_by_email(self):
+        employer = get_employer_by_email("alice@techcorp.com")
+        assert employer.email == "alice@techcorp.com"
+
+    def test_get_employer_by_email_not_found(self):
+        employer = get_employer_by_email("john@techcorp.com")
+        assert employer == None
+
+class InternshipPositionIntegrationTests(unittest.TestCase):
+    def test_deactivate_position(self):
+        employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        position = get_position_by_id(1)
+        position = deactivate_position(position)
+        assert position.is_active == False
+
+    def test_get_position_by_id(self):
+        position = get_position_by_id(1)
+        assert position.title == "Frontend Dev"
+
+    def test_get_positions_by_employer(self):
+        positions = get_positions_by_employer(1)
+        assert positions != None
+
+class ShortlistIntegrationTests(unittest.TestCase):
+    def test_create_shortlist_entry(self):
+        staff = create_staff("Dr. Smith", "smith@uni.edu", "DCIT")
+        student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        entry = create_shortlist_entry(student, position, staff)
+        assert entry != None and entry.student_id == student.student_id and entry.position_id == position.position_id and entry.staff_id == staff.staff_id
+
+    def test_update_employer_decision(self):
+        entry = get_shortlist_by_id(1)
+        entry = update_employer_decision(entry, "Accepted")
+        assert entry.employer_decision == "Accepted"
+
+    def test_get_shortlist_by_id(self):
+        entry = get_shortlist_by_id(1)
+        assert entry != None
+
+    def test_get_shortlists_by_staff(self):
+        entries = get_shortlists_by_staff(1)
+        assert entries != None
+
+    def test_get_shortlists_by_position(self):
+        entries = get_shortlists_by_position(1)
+        assert entries != None
         
 
