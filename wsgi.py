@@ -191,15 +191,52 @@ Test Commands
 
 test = AppGroup('test', help='Testing commands') 
 
-@test.command("user", help="Run User tests")
+@test.command("student", help="Run Student tests")
 @click.argument("type", default="all")
-def user_tests_command(type):
+def student_tests_command(type):
     if type == "unit":
-        sys.exit(pytest.main(["-k", "UserUnitTests"]))
-    elif type == "int":
-        sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
+        sys.exit(pytest.main(["-k", "StudentUnitTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
     
-
+@test.command("staff", help="Run Staff tests")
+@click.argument("type", default="all")
+def staff_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "StaffUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "StaffIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
+    
+@test.command("employer", help="Run Employer tests")
+@click.argument("type", default="all")
+def employer_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "EmployerUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "EmployerIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
+    
+@test.command("internship_position", help="Run InternshipPosition tests")
+@click.argument("type", default="all")
+def internship_position_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "InternshipPositionUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "InternshipPositionIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
+    
+@test.command("shortlist", help="Run Shortlist tests")
+@click.argument("type", default="all")
+def shortlist_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "ShortlistUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "ShortlistIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
+    
 app.cli.add_command(test)

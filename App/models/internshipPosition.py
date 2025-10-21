@@ -25,4 +25,4 @@ class InternshipPosition(db.Model):
 
     def deactivate(self):
         self.is_active = False
-        db.session.commit()
+        #db.session.commit()
