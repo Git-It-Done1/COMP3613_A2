@@ -7,7 +7,6 @@ from App.models import User, Student, Shortlist, Staff, Employer, InternshipPosi
 from App.controllers import (
     create_user,
     get_all_users_json,
-    login,
     get_user,
     get_user_by_username,
     update_user,
@@ -102,24 +101,26 @@ class StaffIntegrationTests(unittest.TestCase):
     def test_staff_add_to_shortlist(self):
         staff = create_staff("Dr. Smith", "smith@uni.edu", "DCIT")
         student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
+        db.session.add(student)
+        db.session.commit()
         employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
-        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
-        shortlist_entry = add_to_shortlist(staff, student, position)
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer.employer_id)
+        shortlist_entry = add_to_shortlist(staff.staff_id, student.student_id, position.position_id)
         assert shortlist_entry.student_id == student.student_id and shortlist_entry.status == "Pending"
 
 class EmployerIntegrationTests(unittest.TestCase):
     def test_employer_create_position(self):
         employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
-        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer.employer_id)
         assert position != None and position.employer_id == employer.employer_id
 
     def test_employer_review_shortlist_entry(self):
         student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
         staff = create_staff("Dr. Smith", "smith@uni.edu", "DCIT")
         employer = get_employer_by_id(1)
-        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer.employer_id)
         entry = create_shortlist_entry(student, position, staff)
-        shortlist_entry = review_shortlist_entry(employer, get_shortlist_by_id(1), "Accepted")
+        shortlist_entry = review_shortlist_entry(employer.employer_id, get_shortlist_by_id(1).shortlist_id, "Accepted")
         assert shortlist_entry.employer_decision == "Accepted"
 
     def test_get_employer_by_id(self):
@@ -137,9 +138,9 @@ class EmployerIntegrationTests(unittest.TestCase):
 class InternshipPositionIntegrationTests(unittest.TestCase):
     def test_deactivate_position(self):
         employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
-        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer.employer_id)
         position = get_position_by_id(1)
-        position = deactivate_position(position)
+        position = deactivate_position(position.position_id)
         assert position.is_active == False
 
     def test_get_position_by_id(self):
@@ -155,13 +156,13 @@ class ShortlistIntegrationTests(unittest.TestCase):
         staff = create_staff("Dr. Smith", "smith@uni.edu", "DCIT")
         student = Student("John Doe", "john@student.com", "BSc Computer Science (General)", 3.6)
         employer = create_employer("Alice Johnson", "alice@techcorp.com", "TechCorp")
-        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer)
+        position = create_position("Frontend Dev", "Build UIs", "React", "IT", "Office", employer.employer_id)
         entry = create_shortlist_entry(student, position, staff)
         assert entry != None and entry.student_id == student.student_id and entry.position_id == position.position_id and entry.staff_id == staff.staff_id
 
     def test_update_employer_decision(self):
         entry = get_shortlist_by_id(1)
-        entry = update_employer_decision(entry, "Accepted")
+        entry = update_employer_decision(entry.shortlist_id, "Accepted")
         assert entry.employer_decision == "Accepted"
 
     def test_get_shortlist_by_id(self):
