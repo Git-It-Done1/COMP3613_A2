@@ -9,6 +9,10 @@ from App.controllers import create_user, get_all_users_json, get_all_users, init
 app = create_app()
 migrate = get_migrate(app)
 
+@app.cli.command("init", help="Creates and initializes the database")
+def init():
+    initialize()
+    print('database intialized')
 
 # ==================== Core Functionality Commands ====================
 
