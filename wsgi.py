@@ -11,6 +11,7 @@ migrate = get_migrate(app)
 
 @app.cli.command("init", help="Creates and initializes the database")
 def init():
+    db.drop_all()
     initialize()
     print('database intialized')
 
