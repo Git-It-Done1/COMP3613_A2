@@ -1,0 +1,940 @@
+{
+	"info": {
+		"_postman_id": "94675378-8c4c-4fe7-9ede-7069be62492f",
+		"name": "Internship App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49511481",
+		"_collection_link": "https://tylerbaksh163-4871962.postman.co/workspace/Tyler-Baksh's-Workspace~1c148b6f-bd3c-4d7e-8995-6b8cf5e4eb21/collection/49511481-94675378-8c4c-4fe7-9ede-7069be62492f?action=share&source=collection_link&creator=49511481"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Init",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response structure is correct\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"message\");\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"db initialized!\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/init",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 201 Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains id and username\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Password is not exposed\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.not.have.property(\"password\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"alice\",\r\n    \"password\": \"alicepass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Failed Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login unsuccessful\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.error).to.eql(\"Invalid credentials\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"alice\",\r\n    \"password\": \"bobpass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.eql(\"Login successful\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"alice\",\r\n    \"password\": \"alicepass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Identify",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Identify test\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"user_id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"username\");\r",
+							"\r",
+							"    pm.expect(jsonData.username).to.be.a(\"string\").and.not.empty;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/identify",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"identify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Employer created successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"employer_id\");\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"    pm.expect(json).to.have.property(\"email\");\r",
+							"    pm.expect(json).to.have.property(\"company\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Alice Johnson\",\r\n    \"email\": \"alice@techcorp.com\",\r\n    \"company\": \"TechCorp\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/employers",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"employers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get employer by ID\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"employer_id\");\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"    pm.expect(json).to.have.property(\"email\");\r",
+							"    pm.expect(json).to.have.property(\"company\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/employers/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"employers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Position created successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"position_id\");\r",
+							"    pm.expect(json).to.have.property(\"title\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Frontend Developer\",\r\n    \"description\": \"Build React UIs\",\r\n    \"requirements\": \"JavaScript, React\",\r\n    \"department\": \"IT\",\r\n    \"location\": \"Office\",\r\n    \"employer_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/positions",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get position by ID\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"position_id\");\r",
+							"    pm.expect(json).to.have.property(\"title\");\r",
+							"    pm.expect(json).to.have.property(\"description\");\r",
+							"    pm.expect(json).to.have.property(\"department\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/positions/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positions",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employer Positions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get positions by employer\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.be.an(\"array\");\r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        pm.expect(json[0]).to.have.property(\"position_id\");\r",
+							"        pm.expect(json[0]).to.have.property(\"title\");\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/positions/employer/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positions",
+						"employer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Entries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get all shortlist entries\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.be.an(\"array\");\r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        pm.expect(json[0]).to.have.property(\"shortlist_id\");\r",
+							"        pm.expect(json[0]).to.have.property(\"student\");\r",
+							"        pm.expect(json[0]).to.have.property(\"position\");\r",
+							"        pm.expect(json[0]).to.have.property(\"decision\");\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/shortlists",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"shortlists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Staff",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Staff created successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"staff_id\");\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Dr. Alan Turing\", \r\n    \"email\": \"alan@university.com\",\r\n    \"department\": \"Computer Science\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/staff",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"staff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Staff",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get staff by ID\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"staff_id\");\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"    pm.expect(json).to.have.property(\"department\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/staff/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"staff",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Student created successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"student_id\");\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"    pm.expect(json).to.have.property(\"email\");\r",
+							"    pm.expect(json).to.have.property(\"major\");\r",
+							"    pm.expect(json).to.have.property(\"gpa\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"email\": \"john@student.com\",\r\n    \"major\": \"Computer Science\", \r\n    \"gpa\": 3.6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/students",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get all students\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.be.an(\"array\");\r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        pm.expect(json[0]).to.have.property(\"student_id\");\r",
+							"        pm.expect(json[0]).to.have.property(\"name\");\r",
+							"        pm.expect(json[0]).to.have.property(\"email\");\r",
+							"        pm.expect(json[0]).to.have.property(\"major\");\r",
+							"        pm.expect(json[0]).to.have.property(\"gpa\");\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/students",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get student by ID\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"student_id\");\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"    pm.expect(json).to.have.property(\"email\");\r",
+							"    pm.expect(json).to.have.property(\"major\");\r",
+							"    pm.expect(json).to.have.property(\"gpa\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/students/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to Shortlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Shortlist entry created successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"shortlist_id\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"staff_id\": 1,\r\n    \"student_id\": 1,\r\n    \"position_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/staff/shortlist",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"staff",
+						"shortlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shortlist Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Student shortlist entry created successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"shortlist_id\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"staff_id\": 1,\r\n    \"student_id\": 1,\r\n    \"position_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/students/shortlist",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"students",
+						"shortlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review Shortlist Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Shortlist entry reviewed successfully\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.have.property(\"shortlist_id\");\r",
+							"    pm.expect(json).to.have.property(\"decision\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employer_id\": 1,\r\n    \"shortlist_id\": 1,\r\n    \"decision\": \"Accepted\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/employers/review",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"employers",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Return Student Shortlists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get student shortlists\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.be.an(\"array\");\r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        pm.expect(json[0]).to.have.property(\"position\");\r",
+							"        pm.expect(json[0]).to.have.property(\"employer\");\r",
+							"        pm.expect(json[0]).to.have.property(\"decision\");\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/students/1/shortlists",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"students",
+						"1",
+						"shortlists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get all users\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.be.an(\"array\");\r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        pm.expect(json[0]).to.have.property(\"id\");\r",
+							"        pm.expect(json[0]).to.have.property(\"username\");\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
